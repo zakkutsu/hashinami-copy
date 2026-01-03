@@ -2,14 +2,17 @@ const express = require('express');
 const router = express.Router();
 
 const authRoutes = require('./authRoutes');
+const userRoutes = require('./userRoutes');
 const kanjiRoutes = require('./kanjiRoutes');
 const kanaRoutes = require('./kanaRoutes');
 const materialRoutes = require('./materialRoutes');
 const quizRoutes = require('./quizRoutes');
 const vocabRoutes = require('./vocabRoutes'); 
 
+
 // 1. Jalur Auth
 router.use('/auth', authRoutes);
+router.use('/users', userRoutes);
 
 // 2. Jalur Dictionary (Kamus)
 router.use('/dictionary', kanjiRoutes); 

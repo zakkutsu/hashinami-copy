@@ -3,21 +3,31 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
-exports.registerUser = async (username, password) => {
-    // 1. Cek apakah username sudah ada?
-    const existingUser = await User.findOne({ where: { username } });
-    if (existingUser) {
-        throw new Error("Username already taken");
+exports.registerUser = async (userData) => {
+    // userData berisi: { username, password, email, full_name }
+    
+    // 1. Cek Username & Email
+    const existingUser = await User.findOne({ 
+        where: { username: userData.username } 
+    });
+    if (existingUser) throw new Error("Username already taken");
+
+    if (userData.email) {
+        const existingEmail = await User.findOne({ where: { email: userData.email } });
+        if (existingEmail) throw new Error("Email already registered");
     }
 
     // 2. Hash Password
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(userData.password, 10);
 
-    // 3. Simpan ke DB
+    // 3. Simpan Lengkap
     const newUser = await User.create({
-        username,
+        username: userData.username,
         password: hashedPassword,
-        xp: 0 // Default XP 0
+        email: userData.email || null,
+        full_name: userData.full_name || null,
+        xp: 0,
+        role: 'USER' // Default user biasa
     });
 
     return newUser;

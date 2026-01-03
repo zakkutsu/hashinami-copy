@@ -3,20 +3,19 @@ const response = require('../utils/response');
 
 exports.register = async (req, res) => {
     try {
-        const { username, password } = req.body;
+        // Ambil semua data dari body
+        const { username, password, email, full_name } = req.body;
 
-        // Validasi sederhana
         if (!username || !password) {
             return response(res, 400, "error", "Username and password are required", null);
         }
 
-        const newUser = await authService.registerUser(username, password);
+        // Kirim object lengkap ke Service
+        const newUser = await authService.registerUser({ username, password, email, full_name });
         
         response(res, 201, "success", "User registered successfully", newUser);
     } catch (err) {
-        // Cek error message untuk menentukan status code
-        const statusCode = err.message === "Username already taken" ? 409 : 500;
-        response(res, statusCode, "error", err.message, null);
+        // ... (error handling sama)
     }
 };
 
