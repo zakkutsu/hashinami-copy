@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
-const Kanji = require('./kanji'); // Kita butuh ini untuk relasi
+const Kanji = require('./kanji');
 
 const KanjiExample = sequelize.define('KanjiExample', {
     id: {
@@ -8,7 +8,6 @@ const KanjiExample = sequelize.define('KanjiExample', {
         primaryKey: true,
         autoIncrement: true
     },
-    // Foreign Key (ID Kanji pemilik kalimat ini)
     kanjiId: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -18,15 +17,15 @@ const KanjiExample = sequelize.define('KanjiExample', {
         }
     },
     sentence: {
-        type: DataTypes.TEXT, // Kalimat Jepang: 彼は日本に行きました
+        type: DataTypes.TEXT, 
         allowNull: false
     },
     reading: {
-        type: DataTypes.TEXT, // Cara baca: Kare wa nihon ni ikimashita
+        type: DataTypes.TEXT, 
         allowNull: false
     },
     meaning: {
-        type: DataTypes.TEXT, // Arti: Dia pergi ke Jepang
+        type: DataTypes.TEXT, 
         allowNull: false
     }
 }, {

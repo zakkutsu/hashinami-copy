@@ -1,12 +1,13 @@
-const response = (statusCode, data, message, res) => {
+const response = (res, statusCode, status, message, data, pagination = null) => {
     res.status(statusCode).json({
-        payload: data,
-        message: message,
-        metadata: {
-            prev: "",
-            next: "",
-            current: ""
-        }
+        meta: {
+            code: statusCode,
+            status: status,
+            message: message,
+            isPaginated: !!pagination
+        },
+        pagination: pagination,
+        data: data
     });
 };
 

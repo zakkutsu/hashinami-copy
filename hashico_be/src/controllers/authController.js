@@ -8,9 +8,10 @@ exports.register = async (req, res) => {
         const { username, password } = req.body;
         const hashedPassword = await bcrypt.hash(password, 10);
         const user = await User.create({ username, password: hashedPassword });
-        response(201, user, "User berhasil didaftarkan", res);
+
+        response(res, 201, "success", "User registered successfully", user);
     } catch (err) {
-        response(500, null, err.message, res);
+        response(res, 500, "error", err.message, null);
     }
 };
 
@@ -18,14 +19,15 @@ exports.login = async (req, res) => {
     try {
         const { username, password } = req.body;
         const user = await User.findOne({ where: { username } });
-        if (!user) return response(404, null, "User tidak ditemukan", res);
+        if (!user) return response(res, 404, "error", "User not found", null);
 
         const validPass = await bcrypt.compare(password, user.password);
-        if (!validPass) return response(401, null, "Password salah", res);
+        if (!validPass) return response(res, 401, "error", "Invalid credentials", null);
 
         const token = jwt.sign({ id: user.id, username: user.username }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        response(200, { token }, "Login berhasil", res);
+        
+        response(res, 200, "success", "Login successful", { token });
     } catch (err) {
-        response(500, null, err.message, res);
+        response(res, 500, "error", err.message, null);
     }
 };

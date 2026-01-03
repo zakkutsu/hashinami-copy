@@ -4,16 +4,14 @@ const sequelize = require('./config/database');
 const routes = require('./routes');
 require('dotenv').config();
 
-// --- IMPORT MODELS (PENTING) ---
+// --- IMPORT MODELS ---
 const User = require('./models/user');
 const Kanji = require('./models/kanji');
 const KanjiExample = require('./models/kanjiExample');
 const Kana = require('./models/kana');
 
 // --- SETUP RELASI ---
-// "Kanji punya banyak Contoh"
 Kanji.hasMany(KanjiExample, { foreignKey: 'kanjiId' });
-// "Contoh milik satu Kanji"
 KanjiExample.belongsTo(Kanji, { foreignKey: 'kanjiId' });
 
 const app = express();

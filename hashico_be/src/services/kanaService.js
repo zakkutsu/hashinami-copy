@@ -1,4 +1,3 @@
-// src/services/kanaService.js
 const Kana = require('../models/kana');
 
 exports.createKana = async (data) => {

@@ -8,36 +8,36 @@ const Kanji = sequelize.define('Kanji', {
         autoIncrement: true
     },
     character: {
-        type: DataTypes.STRING(5), // Cukup untuk 1 karakter kanji
+        type: DataTypes.STRING(5), 
         allowNull: false,
         unique: true
     },
     level: {
-        type: DataTypes.ENUM('N5', 'N4', 'N3', 'N2', 'N1'), // Dropdown level
+        type: DataTypes.ENUM('N5', 'N4', 'N3', 'N2', 'N1'), 
         allowNull: false
     },
     onyomi: {
-        type: DataTypes.STRING, // Contoh: "ICHI, ITSU"
+        type: DataTypes.STRING, 
         allowNull: true
     },
     kunyomi: {
-        type: DataTypes.STRING, // Contoh: "hito(tsu)"
+        type: DataTypes.STRING, 
         allowNull: true
     },
     meaning: {
-        type: DataTypes.STRING, // Arti bahasa Indonesia
+        type: DataTypes.STRING, 
         allowNull: false
     },
     strokes: {
-        type: DataTypes.INTEGER, // Jumlah goresan (misal: 12)
+        type: DataTypes.INTEGER, 
         allowNull: true
     },
     radical: {
-        type: DataTypes.STRING, // Radikal kanji
+        type: DataTypes.STRING, 
         allowNull: true
     },
     stroke_video: {
-        type: DataTypes.STRING, // URL video tutorial (untuk fitur masa depan)
+        type: DataTypes.STRING, 
         allowNull: true
     }
 }, {

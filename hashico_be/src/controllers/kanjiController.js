@@ -1,36 +1,61 @@
-// src/controllers/kanjiController.js
-const kanjiService = require('../services/kanjiService'); // Import Service
+const kanjiService = require('../services/kanjiService');
 const response = require('../utils/response');
 
 exports.addKanji = async (req, res) => {
     try {
-        // Panggil Service (Koki), lempar req.body (Bahan)
         const newKanji = await kanjiService.createKanji(req.body);
-        response(201, newKanji, "Data Kanji berhasil disimpan!", res);
+        response(res, 201, "success", "Kanji created successfully", newKanji);
     } catch (err) {
-        response(500, null, "Gagal menambah Kanji: " + err.message, res);
+        response(res, 500, "error", "Failed to create Kanji: " + err.message, null);
     }
 };
 
 exports.addExampleOnly = async (req, res) => {
     try {
         const { kanjiId, ...exampleData } = req.body;
-        
-        // Panggil Service khusus nambah example
         const newExample = await kanjiService.addExampleToKanji(kanjiId, exampleData);
-        response(201, newExample, "Contoh kalimat berhasil ditambahkan!", res);
+        response(res, 201, "success", "Example added successfully", newExample);
     } catch (err) {
-        // Jika error "Kanji tidak ditemukan" dilempar oleh Service, akan ketangkap di sini
         const statusCode = err.message.includes('tidak ditemukan') ? 404 : 500;
-        response(statusCode, null, err.message, res);
+        response(res, statusCode, "error", err.message, null);
     }
 };
 
 exports.getAllKanji = async (req, res) => {
     try {
-        const data = await kanjiService.getAllKanjis();
-        response(200, data, "Semua data Kanji", res);
+        // 1. Ambil Query Params (Default: page 1, limit 10)
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+
+        // 2. Panggil Service
+        const { count, rows } = await kanjiService.getAllKanjis(page, limit);
+
+        // 3. Hitung Metadata Pagination
+        const totalPages = Math.ceil(count / limit);
+        const startIndex = (page - 1) * limit + 1;
+        const endIndex = Math.min(page * limit, count); // Agar tidak melebihi total
+        
+        // Cek data kosong untuk index
+        const showingText = count === 0 
+            ? "0 items" 
+            : `${startIndex}-${endIndex} of ${count} items`;
+
+        const pagination = {
+            currentPage: page,
+            totalPages: totalPages,
+            totalRows: count,
+            limit: limit,
+            hasNextPage: page < totalPages,
+            hasPrevPage: page > 1,
+            startIndex: count === 0 ? 0 : startIndex,
+            endIndex: endIndex,
+            showing: showingText
+        };
+
+        // 4. Kirim Response dengan Format Baru
+        response(res, 200, "success", "Kanji data retrieved successfully", rows, pagination);
+
     } catch (err) {
-        response(500, null, err.message, res);
+        response(res, 500, "error", err.message, null);
     }
 };

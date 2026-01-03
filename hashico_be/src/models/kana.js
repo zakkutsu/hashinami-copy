@@ -10,7 +10,7 @@ const Kana = sequelize.define('Kana', {
     character: {
         type: DataTypes.STRING(5), 
         allowNull: false,
-        unique: true // Mencegah duplikat (misal: 'あ' tidak boleh input 2 kali)
+        unique: true
     },
     romaji: {
         type: DataTypes.STRING, 

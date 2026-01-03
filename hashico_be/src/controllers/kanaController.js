@@ -1,21 +1,21 @@
-// src/controllers/kanaController.js
 const kanaService = require('../services/kanaService');
 const response = require('../utils/response');
 
 exports.addKana = async (req, res) => {
     try {
         const newKana = await kanaService.createKana(req.body);
-        response(201, newKana, `Data ${newKana.type} berhasil ditambahkan!`, res);
+        response(res, 201, "success", `Data ${newKana.type} added successfully`, newKana);
     } catch (err) {
-        response(500, null, err.message, res);
+        response(res, 500, "error", err.message, null);
     }
 };
 
 exports.getAllKana = async (req, res) => {
     try {
         const data = await kanaService.getAllKanas();
-        response(200, data, "Semua data Kana", res);
+        response(res, 200, "success", "All Kana retrieved successfully", data);
+        
     } catch (err) {
-        response(500, null, err.message, res);
+        response(res, 500, "error", err.message, null);
     }
 };
