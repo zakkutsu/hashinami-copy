@@ -32,9 +32,8 @@ router.post('/upload-avatar', upload.single('avatar'), async (req, res) => {
             });
         }
 
-        const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
-        
-        await userService.updateUser(req.user.id, { avatar: fileUrl });
+        const filePath = `/uploads/${req.file.filename}`;
+        await userService.updateUser(req.user.id, { avatar: filePath });
 
         res.json({ 
             meta: { code: 200, status: "success", message: "Avatar updated" }, 

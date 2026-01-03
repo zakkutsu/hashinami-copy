@@ -28,5 +28,5 @@ build/
 *.sqlite
 *.db
 
-# Uploads
-public/uploads/
+# Uploads (Ignore all uploads folder)
+public/
