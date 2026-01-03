@@ -1,20 +1,28 @@
 // src/routes/userRoutes.js
 const express = require('express');
 const router = express.Router();
-const { getMyProfile, updateProfile } = require('../controllers/userController');
-const { getTopUsers } = require('../controllers/userController'); // Pastikan ini terimport
 const authMiddleware = require('../middlewares/authMiddleware');
 const upload = require('../middlewares/uploadMiddleware');
-const userService = require('../services/userService'); 
+const userService = require('../services/userService');
 
+// Import semua controller sekaligus di sini
+const { 
+    getMyProfile, 
+    updateProfile, 
+    getTopUsers 
+} = require('../controllers/userController'); 
+
+// Middleware Auth dipasang untuk semua route di bawah ini
 router.use(authMiddleware);
 
-// Routes lama
+// Routes
 router.get('/me', getMyProfile);
 router.put('/me', updateProfile);
+
+// Route Leaderboard (Penyebab error tadi ada di sini)
 router.get('/leaderboard', getTopUsers);
 
-// --- ROUTE BARU: UPLOAD AVATAR ---
+// Route Upload Avatar
 router.post('/upload-avatar', upload.single('avatar'), async (req, res) => {
     try {
         if (!req.file) {
@@ -24,10 +32,8 @@ router.post('/upload-avatar', upload.single('avatar'), async (req, res) => {
             });
         }
 
-        // Buat URL agar bisa diakses browser/flutter
         const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
         
-        // Simpan URL ke database
         await userService.updateUser(req.user.id, { avatar: fileUrl });
 
         res.json({ 
