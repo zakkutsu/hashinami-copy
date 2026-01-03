@@ -30,6 +30,8 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
+app.use('/uploads', express.static(path.join(__dirname, '../public/uploads')));
+
 app.use('/api/v1', routes);
 
 app.get('/', (req, res) => {
