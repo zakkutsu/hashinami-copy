@@ -99,9 +99,78 @@ Semua endpoint memiliki prefix: `/api/v1`
 
 ---
 
+## � Struktur Folder Backend
+
+```
+hashico_be/
+├── public/
+│   └── uploads/              # Folder upload avatar (di-gitignore)
+├── src/
+│   ├── config/
+│   │   └── database.js       # Konfigurasi koneksi Sequelize MySQL
+│   ├── controllers/          # Logic HTTP Request/Response
+│   │   ├── authController.js
+│   │   ├── userController.js
+│   │   ├── kanjiController.js
+│   │   ├── kanaController.js
+│   │   ├── vocabController.js
+│   │   ├── materialController.js
+│   │   └── quizController.js
+│   ├── middlewares/          # Middleware untuk validasi & auth
+│   │   ├── authMiddleware.js         # JWT Token Verification
+│   │   ├── validationMiddleware.js   # Joi Schema Validator
+│   │   └── uploadMiddleware.js       # Multer File Upload
+│   ├── models/               # Database Models (Sequelize)
+│   │   ├── user.js
+│   │   ├── kanji.js
+│   │   ├── kanjiExample.js
+│   │   ├── kana.js
+│   │   ├── vocabulary.js
+│   │   ├── material.js
+│   │   ├── quiz.js
+│   │   ├── quizOption.js
+│   │   └── quizHistory.js
+│   ├── routes/               # Endpoint Routing
+│   │   ├── index.js              # Main Router
+│   │   ├── authRoutes.js
+│   │   ├── userRoutes.js
+│   │   ├── kanjiRoutes.js
+│   │   ├── kanaRoutes.js
+│   │   ├── vocabRoutes.js
+│   │   ├── materialRoutes.js
+│   │   └── quizRoutes.js
+│   ├── services/             # Business Logic Layer
+│   │   ├── authService.js
+│   │   ├── userService.js
+│   │   ├── kanjiService.js
+│   │   ├── kanaService.js
+│   │   ├── vocabService.js
+│   │   ├── materialService.js
+│   │   └── quizService.js
+│   ├── utils/
+│   │   └── response.js       # Standard Response Format Helper
+│   ├── validations/          # Joi Validation Schemas
+│   │   └── authValidation.js
+│   └── app.js                # Entry Point (Express Server)
+├── .env.example              # Template Environment Variables
+├── .gitignore
+├── docker-compose.yml        # MySQL Docker Setup
+├── package.json
+├── README.md
+└── seed.js                   # Database Seeder Script
+```
+
+### Arsitektur Layer (MVC + Service Layer)
+1. **Routes** → Terima HTTP Request
+2. **Controller** → Validasi & Response Handling
+3. **Service** → Business Logic & Database Operations
+4. **Model** → Database Schema Definition
+
+---
+
 ## 🔮 Future Roadmap (Fitur Masa Depan)
 Fitur berikut direncanakan untuk pengembangan tahap selanjutnya:
 
-* [ ] **User Avatar Upload**: Upload foto profil fisik (sekarang menggunakan generated avatar).
-* [ ] **Admin Dashboard**: Web khusus untuk input data tanpa Postman.
-* [ ] **Daily Streak**: Fitur absen harian.
+* [x] **User Avatar Upload**: Upload foto profil fisik ✅
+* [ ] **Admin Dashboard**: Web khusus untuk input data tanpa Postman
+* [ ] **Daily Streak**: Fitur absen harian
