@@ -1,33 +1,35 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const User = require('../models/user');
+const authService = require('../services/authService');
 const response = require('../utils/response');
 
 exports.register = async (req, res) => {
     try {
         const { username, password } = req.body;
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const user = await User.create({ username, password: hashedPassword });
 
-        response(res, 201, "success", "User registered successfully", user);
+        // Validasi sederhana
+        if (!username || !password) {
+            return response(res, 400, "error", "Username and password are required", null);
+        }
+
+        const newUser = await authService.registerUser(username, password);
+        
+        response(res, 201, "success", "User registered successfully", newUser);
     } catch (err) {
-        response(res, 500, "error", err.message, null);
+        // Cek error message untuk menentukan status code
+        const statusCode = err.message === "Username already taken" ? 409 : 500;
+        response(res, statusCode, "error", err.message, null);
     }
 };
 
 exports.login = async (req, res) => {
     try {
         const { username, password } = req.body;
-        const user = await User.findOne({ where: { username } });
-        if (!user) return response(res, 404, "error", "User not found", null);
 
-        const validPass = await bcrypt.compare(password, user.password);
-        if (!validPass) return response(res, 401, "error", "Invalid credentials", null);
+        const result = await authService.loginUser(username, password);
 
-        const token = jwt.sign({ id: user.id, username: user.username }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        
-        response(res, 200, "success", "Login successful", { token });
+        response(res, 200, "success", "Login successful", result);
     } catch (err) {
-        response(res, 500, "error", err.message, null);
+        // Error login biasanya 401 (Unauthorized) atau 404 (Not Found)
+        const statusCode = (err.message === "User not found" || err.message === "Invalid password") ? 401 : 500;
+        response(res, statusCode, "error", "Authentication failed: " + err.message, null);
     }
 };
