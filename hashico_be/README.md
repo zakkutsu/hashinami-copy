@@ -50,7 +50,7 @@ Server akan berjalan di `http://localhost:3000`.
 Agar tidak perlu input manual, jalankan perintah ini untuk mengisi database dengan data User, Kanji, Vocab, dan Quiz dasar:
 
 ```bash
-node seed.js
+node seeders/seed.js
 ```
 
 **Akun Default Siap Pakai:**
@@ -105,6 +105,8 @@ Semua endpoint memiliki prefix: `/api/v1`
 hashico_be/
 ├── public/
 │   └── uploads/              # Folder upload avatar (di-gitignore)
+├── seeders/
+│   └── seed.js               # Database Seeder Script
 ├── src/
 │   ├── config/
 │   │   └── database.js       # Konfigurasi koneksi Sequelize MySQL
@@ -116,6 +118,9 @@ hashico_be/
 │   │   ├── vocabController.js
 │   │   ├── materialController.js
 │   │   └── quizController.js
+│   ├── helpers/              # Helper functions & utilities
+│   │   ├── response.js           # Standard Response Format
+│   │   └── authValidation.js     # Joi Validation Schemas
 │   ├── middlewares/          # Middleware untuk validasi & auth
 │   │   ├── authMiddleware.js         # JWT Token Verification
 │   │   ├── validationMiddleware.js   # Joi Schema Validator
@@ -147,17 +152,12 @@ hashico_be/
 │   │   ├── vocabService.js
 │   │   ├── materialService.js
 │   │   └── quizService.js
-│   ├── utils/
-│   │   └── response.js       # Standard Response Format Helper
-│   ├── validations/          # Joi Validation Schemas
-│   │   └── authValidation.js
 │   └── app.js                # Entry Point (Express Server)
 ├── .env.example              # Template Environment Variables
 ├── .gitignore
 ├── docker-compose.yml        # MySQL Docker Setup
 ├── package.json
-├── README.md
-└── seed.js                   # Database Seeder Script
+└── README.md
 ```
 
 ### Arsitektur Layer (MVC + Service Layer)
