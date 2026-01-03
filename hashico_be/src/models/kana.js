@@ -10,7 +10,8 @@ const Kana = sequelize.define('Kana', {
     character: {
         type: DataTypes.STRING(5), 
         allowNull: false,
-        unique: true
+        unique: true,
+        collate: 'utf8mb4_bin'
     },
     romaji: {
         type: DataTypes.STRING, 
