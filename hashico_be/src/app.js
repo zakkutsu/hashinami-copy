@@ -9,10 +9,16 @@ const User = require('./models/user');
 const Kanji = require('./models/kanji');
 const KanjiExample = require('./models/kanjiExample');
 const Kana = require('./models/kana');
+const Material = require('./models/material');
+const Quiz = require('./models/quiz');
+const QuizOption = require('./models/quizOption');
 
 // --- SETUP RELASI ---
 Kanji.hasMany(KanjiExample, { foreignKey: 'kanjiId' });
 KanjiExample.belongsTo(Kanji, { foreignKey: 'kanjiId' });
+
+Quiz.hasMany(QuizOption, { foreignKey: 'quizId' });
+QuizOption.belongsTo(Quiz, { foreignKey: 'quizId' });
 
 const app = express();
 const PORT = process.env.PORT || 3000;
