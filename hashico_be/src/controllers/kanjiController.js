@@ -1,5 +1,5 @@
 const kanjiService = require('../services/kanjiService');
-const response = require('../utils/response');
+const response = require('../helpers/response');
 
 exports.addKanji = async (req, res) => {
     try {

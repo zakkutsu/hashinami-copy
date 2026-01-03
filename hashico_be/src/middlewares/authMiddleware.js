@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const response = require('../utils/response'); // Import util response
+const response = require('../helpers/response'); // Import util response
 require('dotenv').config();
 
 module.exports = (req, res, next) => {

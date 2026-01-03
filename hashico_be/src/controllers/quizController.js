@@ -1,5 +1,5 @@
 const quizService = require('../services/quizService');
-const response = require('../utils/response');
+const response = require('../helpers/response');
 
 // Input Soal Admin
 exports.addQuiz = async (req, res) => {

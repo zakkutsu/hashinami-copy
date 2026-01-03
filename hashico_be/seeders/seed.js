@@ -1,21 +1,17 @@
-const sequelize = require('./src/config/database');
+const sequelize = require('../src/config/database');
 const bcrypt = require('bcrypt');
 
 // Import Semua Model
-const User = require('./src/models/user');
-const Kana = require('./src/models/kana');
-const Kanji = require('./src/models/kanji');
-const KanjiExample = require('./src/models/kanjiExample');
-const Vocabulary = require('./src/models/vocabulary');
-const Material = require('./src/models/material');
-const Quiz = require('./src/models/quiz');
-const QuizOption = require('./src/models/quizOption');
-const QuizHistory = require('./src/models/quizHistory');
+const User = require('../src/models/user');
+const Kana = require('../src/models/kana');
+const Kanji = require('../src/models/kanji');
+const KanjiExample = require('../src/models/kanjiExample');
+const Vocabulary = require('../src/models/vocabulary');
+const Material = require('../src/models/material');
+const Quiz = require('../src/models/quiz');
+const QuizOption = require('../src/models/quizOption');
+const QuizHistory = require('../src/models/quizHistory');
 
-// ==========================================
-// PENTING: SETUP RELASI (ASSOCIATIONS)
-// Karena seed.js jalan sendiri, kita harus definisikan ulang relasinya di sini
-// ==========================================
 
 // 1. Relasi Kanji
 Kanji.hasMany(KanjiExample, { foreignKey: 'kanjiId' });

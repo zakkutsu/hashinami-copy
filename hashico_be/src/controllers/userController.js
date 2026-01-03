@@ -1,6 +1,6 @@
 // src/controllers/userController.js
 const userService = require('../services/userService');
-const response = require('../utils/response');
+const response = require('../helpers/response');
 
 exports.getMyProfile = async (req, res) => {
     try {

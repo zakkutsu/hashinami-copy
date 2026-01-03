@@ -1,5 +1,5 @@
 const vocabService = require('../services/vocabService');
-const response = require('../utils/response');
+const response = require('../helpers/response');
 
 exports.addVocab = async (req, res) => {
     try {

@@ -1,5 +1,5 @@
 const kanaService = require('../services/kanaService');
-const response = require('../utils/response');
+const response = require('../helpers/response');
 
 exports.addKana = async (req, res) => {
     try {

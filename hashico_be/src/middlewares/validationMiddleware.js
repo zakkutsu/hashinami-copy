@@ -1,4 +1,4 @@
-const response = require('../utils/response');
+const response = require('../helpers/response');
 
 const validate = (schema) => (req, res, next) => {
     const { error } = schema.validate(req.body);

@@ -1,5 +1,5 @@
 const materialService = require('../services/materialService');
-const response = require('../utils/response');
+const response = require('../helpers/response');
 
 exports.addMaterial = async (req, res) => {
     try {
