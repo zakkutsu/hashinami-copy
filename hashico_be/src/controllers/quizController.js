@@ -28,3 +28,20 @@ exports.getQuizGame = async (req, res) => {
         response(res, 500, "error", err.message, null);
     }
 };
+
+exports.submitQuizResult = async (req, res) => {
+    try {
+        // userId didapat otomatis dari Token JWT (middleware)
+        const userId = req.user.id; 
+        
+        const { category, level, total_questions, correct_answers } = req.body;
+
+        const result = await quizService.submitScore(userId, {
+            category, level, total_questions, correct_answers
+        });
+
+        response(res, 201, "success", "Score saved successfully", result);
+    } catch (err) {
+        response(res, 500, "error", err.message, null);
+    }
+};
